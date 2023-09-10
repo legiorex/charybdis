@@ -3,7 +3,6 @@ USER = legiorex
 KEYBOARDS = charybdis
 PATH_charybdis = $(USER)/charybdis/4x6/v2/promicro
 
-# bastardkb/charybdis/4x6/v2/promicro
 all: $(KEYBOARDS)
 
 .PHONY: $(KEYBOARDS)

@@ -18,7 +18,7 @@
 
 #include QMK_KEYBOARD_H
 
-// #include "utils.h"
+#include "utils.h"
 
 
 #ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
@@ -76,8 +76,6 @@ static uint16_t auto_pointer_layer_timer = 0;
 #define KC_1_L LT(0, KC_1)
 #define KC_2_L LT(0, KC_2)
 #define KC_3_L LT(0, KC_3)
-
-// #define TAPPING_TERM_PER_KEY
 
 
 #ifndef POINTING_DEVICE_ENABLE
@@ -250,16 +248,16 @@ const key_override_t **key_overrides = (const key_override_t *[]){
 };
 
 
-static bool process_tap_or_long_press_key(
-    keyrecord_t* record, uint16_t long_press_keycode) {
-  if (record->tap.count == 0) {  // Key is being held.
-    if (record->event.pressed) {
-      tap_code16(long_press_keycode);
-    }
-    return false;  // Skip default handling.
-  }
-  return true;  // Continue default handling.
-}
+// static bool process_tap_or_long_press_key(
+//     keyrecord_t* record, uint16_t long_press_keycode) {
+//   if (record->tap.count == 0) {  // Key is being held.
+//     if (record->event.pressed) {
+//       tap_code16(long_press_keycode);
+//     }
+//     return false;  // Skip default handling.
+//   }
+//   return true;  // Continue default handling.
+// }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     uint8_t mods  = get_mods();
