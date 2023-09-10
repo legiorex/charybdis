@@ -14,7 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+
 #include QMK_KEYBOARD_H
+
+// #include "utils.h"
+
 
 #ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
 #    include "timer.h"
@@ -59,13 +64,18 @@ static uint16_t auto_pointer_layer_timer = 0;
 #define RAISE TO(LAYER_RAISE)
 #define POINT TO(LAYER_POINTER)
 // #define RAISE MO(LAYER_RAISE)
+
 #define PT_Z LT(LAYER_POINTER, KC_Z)
 #define PT_SLSH LT(LAYER_POINTER, KC_SLSH)
+
 #define L_BRC LT(0, KC_LBRC)
 #define R_BRC LT(0, KC_RBRC)
 #define COPY LT(0, KC_C)
 #define PASTE LT(0, KC_V)
 #define W_PASTE LT(0, KC_B)
+#define KC_1_L LT(0, KC_1)
+#define KC_2_L LT(0, KC_2)
+#define KC_3_L LT(0, KC_3)
 
 // #define TAPPING_TERM_PER_KEY
 
@@ -82,7 +92,7 @@ static uint16_t auto_pointer_layer_timer = 0;
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [LAYER_BASE] = LAYOUT(
   // ╭─────────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────────╮
-        KC_ESC,   KC_1,    KC_2,    KC_3,    KC_4,     KC_5,        KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
+       KC_ESC,   KC_1_L,    KC_2_L,    KC_3_L,    KC_4,     KC_5,        KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
   // ├─────────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────────┤
        LOW_RAI,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,        KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,   L_BRC,
   // ├─────────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────────┤
@@ -96,6 +106,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [LAYER_LOWER] = LAYOUT(
+  //Blue color
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
        KC_TILD, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,    KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_UNDS,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
@@ -111,6 +122,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [LAYER_RAISE] = LAYOUT(
+  //Magenta color
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
         KC_F12,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,      KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
@@ -126,6 +138,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [LAYER_POINTER] = LAYOUT(
+  //Green color
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
        DPI_MOD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
@@ -136,7 +149,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        XXXXXXX, XXXXXXX, DRGSCRL, SNIPING, XXXXXXX,  XXXXXXX,   KC_BTN1, KC_BTN2,  SNIPING, DRGSCRL, XXXXXXX, XXXXXXX,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                                   KC_BTN2, KC_BTN1, KC_BTN3,    KC_BTN3, KC_BTN1,
-                                           XXXXXXX, BASE,    KC_BTN2
+                                           XXXXXXX, BASE,       BASE
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
 };
@@ -195,31 +208,26 @@ void set_color(uint8_t h){
     rgb_matrix_sethsv_noeeprom(h, SATURATION, RGB_MATRIX_DEFAULT_VAL);
 }
 
-
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (get_highest_layer(state)) {
 
         case LAYER_BASE:
             rgb_matrix_mode_noeeprom(RGB_MATRIX_CYCLE_LEFT_RIGHT);
             rgb_matrix_sethsv_noeeprom(MAGENTA, SATURATION, RGB_MATRIX_DEFAULT_VAL);
-            pointing_device_set_cpi(100);
-
             break;
-        case LAYER_LOWER:
-            pointing_device_set_cpi(200);
 
+        case LAYER_LOWER:
             set_color(BLUE);
             break;
-        case LAYER_RAISE:
 
+        case LAYER_RAISE:
             set_color(MAGENTA);
             break;
+
         case LAYER_POINTER:
-
             set_color(GREEN);
-            pointing_device_set_cpi(20);
-
             break;
+
         default:
                 break;
     }
@@ -284,8 +292,33 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return process_tap_or_long_press_key(record, C(KC_V));
         case W_PASTE:
             return process_tap_or_long_press_key(record, LWIN(KC_V));
+        case KC_1_L:
+            if (record->tap.count == 0) {  // Key is being held.
+                if (record->event.pressed) {
+                layer_invert(LAYER_LOWER);
+                }
+                return false;  // Skip default handling.
+            }
+            return true;  // Continue default handling.
+            // return process_tap_or_long_press_key(record, TO(LAYER_LOWER));
+        // case KC_2_L:
+        //     return process_tap_or_long_press_key(record, layer_invert(LAYER_RAISE));
+        // case KC_3_L:
+        //     return process_tap_or_long_press_key(record, POINT);
 
     }
 
     return true;
+}
+
+report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
+    if (!layer_state_is(LAYER_POINTER)) {
+
+        mouse_report.x = 0;
+        mouse_report.y = 0;
+        mouse_report.h = 0;
+        mouse_report.v = 0;
+    }
+
+    return mouse_report;
 }

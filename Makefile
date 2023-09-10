@@ -1,7 +1,7 @@
-USER = default
+USER = legiorex
 
 KEYBOARDS = charybdis
-PATH_charybdis = bastardkb/charybdis/4x6/v2/promicro
+PATH_charybdis = $(USER)/4x6/v2/promicro
 
 # bastardkb/charybdis/4x6/v2/promicro
 all: $(KEYBOARDS)
@@ -12,23 +12,24 @@ $(KEYBOARDS):
 	git submodule update --init --recursive
 
 	# cleanup old symlinks
-	for f in $(KEYBOARDS); do rm -rf qmk_firmware/keyboards/bastardkb/charybdis/4x6/v2/keymaps/$(USER)/keymap; done
+	for f in $(KEYBOARDS); do rm -rf qmk_firmware/keyboards/$(USER); done
 	# for f in $(KEYBOARDS); do rm -rf qmk_firmware/keyboards/$(PATH_$@)/keymaps/$(USER); done
-	rm -rf qmk_firmware/keyboards/bastardkb/charybdis/4x6/v2/promicro
+	# rm -rf qmk_firmware/keyboards/bastardkb/charybdis/4x6/v2/promicro
 
 	# add new symlinks
-	ln -s $(shell pwd)/4x6/v2/keymaps/$(USER)/keymap.c test
-	ln -s $(shell pwd)/4x6/v2/promicro/info.json /qmk_firmware/keyboards/bastardkb/charybdis/4x6/v2/promicro/info.json
+	ln -s $(shell pwd)/charybdis qmk_firmware/keyboards/$(USER)
+	# ln -s $(shell pwd)/charybdis/4x6/v2/promicro qmk_firmware/keyboards/bastardkb/charybdis/4x6/v2/promicro
 
 	# run lint check
-	cd qmk_firmware; qmk lint -km $(USER) -kb $(PATH_$@) --strict
+	cd qmk_firmware; qmk lint -km default -kb $(PATH_$@) --strict
 
 	# run build
-	make BUILD_DIR=$(shell pwd) -j1 -C qmk_firmware $(PATH_$@):$(USER)
+	# make BUILD_DIR=$(shell pwd) -j1 -C qmk_firmware $(PATH_$@):default
+	cd qmk_firmware; qmk compile -km default -kb $(PATH_$@)
 
 	# cleanup symlinks
-	for f in $(KEYBOARDS); do rm -rf qmk_firmware/keyboards/bastardkb/charybdis/4x6/v2/keymaps/$(USER); done
-	rm -rf qmk_firmware/keyboards/bastardkb/charybdis/4x6/v2/promicro
+	for f in $(KEYBOARDS); do rm -rf qmk_firmware/keyboards/$(USER); done
+	# rm -rf qmk_firmware/keyboards/bastardkb/charybdis/4x6/v2/promicro
 
 clean:
 	rm -rf obj_*
