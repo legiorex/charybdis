@@ -15,7 +15,7 @@ AUDIO_SUPPORTED = no        # Audio is not supported.
 RGB_MATRIX_SUPPORTED = yes  # RGB matrix is supported and enabled by default.
 RGBLIGHT_SUPPORTED = yes    # RGB underglow is supported, but not enabled by default.
 RGB_MATRIX_ENABLE = yes     # Enable keyboard RGB matrix functionality
-RGB_MATRIX_DRIVER = WS2812
+RGB_MATRIX_DRIVER = ws2812
 KEY_OVERRIDE_ENABLE = yes
 # TAP_DANCE_ENABLE = yes
 # Charybdis is a split 4x6 keyboard with a maximum of 5 thumb keys (3 on the

@@ -1,7 +1,7 @@
 USER = legiorex
 
 KEYBOARDS = charybdis
-PATH_charybdis = $(USER)/4x6/v2/promicro
+PATH_charybdis = $(USER)/charybdis/4x6/v2/promicro
 
 # bastardkb/charybdis/4x6/v2/promicro
 all: $(KEYBOARDS)
@@ -17,7 +17,7 @@ $(KEYBOARDS):
 	# rm -rf qmk_firmware/keyboards/bastardkb/charybdis/4x6/v2/promicro
 
 	# add new symlinks
-	ln -s $(shell pwd)/charybdis qmk_firmware/keyboards/$(USER)
+	ln -s $(shell pwd)/legiorex qmk_firmware/keyboards/$(USER)
 	# ln -s $(shell pwd)/charybdis/4x6/v2/promicro qmk_firmware/keyboards/bastardkb/charybdis/4x6/v2/promicro
 
 	# run lint check
