@@ -16,10 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#pragma once
-
 #include QMK_KEYBOARD_H
 
+#include "utils.h"
 
-static bool process_tap_or_long_press_key(keyrecord_t* record, uint16_t long_press_keycode);
+bool process_tap_or_long_press_key(
+    keyrecord_t* record, uint16_t long_press_keycode) {
+  if (record->tap.count == 0) {  // Key is being held.
+    if (record->event.pressed) {
+      tap_code16(long_press_keycode);
+    }
+    return false;  // Skip default handling.
+  }
+  return true;  // Continue default handling.
+};
