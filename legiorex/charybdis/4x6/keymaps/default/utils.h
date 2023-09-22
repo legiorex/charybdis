@@ -21,5 +21,4 @@
 
 #include QMK_KEYBOARD_H
 
-
-static bool process_tap_or_long_press_key(keyrecord_t* record, uint16_t long_press_keycode);
+extern bool process_tap_or_long_press_key(keyrecord_t* record, uint16_t long_press_keycode);
